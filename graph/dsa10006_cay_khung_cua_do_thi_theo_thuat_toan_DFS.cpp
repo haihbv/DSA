@@ -1,22 +1,24 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
 #define el '\n'
 
-int n, m;
-vector<int> adj[100001];
-bool visited[100001];
-int cnt, ans;
+using namespace std;
+
+int n, m, bd;
+vector<int> adj[100005];
+vector<pair<int, int>> res;
+bool visited[100005];
+int cnt = 0;
 
 void dfs(int u)
 {
-	cnt++;
+	++cnt;
 	visited[u] = true;
 	for (int v : adj[u])
 	{
 		if (!visited[v])
 		{
+			res.push_back({u, v});
 			dfs(v);
 		}
 	}
@@ -29,39 +31,32 @@ int main()
 	cin >> tc;
 	while (tc--)
 	{
-		cin >> n >> m;
+		cin >> n >> m >> bd;
 		for (int i = 1; i <= n; i++)
 		{
 			adj[i].clear();
 		}
+		cnt = 0;
+		res.clear();
 		memset(visited, false, sizeof(visited));
-		cnt = 0; ans = 0;
 		for (int i = 1; i <= m; i++)
 		{
-			int x, y;
-			cin >> x >> y;
+			int x, y; cin >> x >> y;
 			adj[x].push_back(y);
-			adj[y].push_back(x);	
+			adj[y].push_back(x);
 		}
-		
-		for (int i = 1; i <= n; i++)
+		dfs(bd);
+		if (res.size() == n - 1)
 		{
-			cnt = 0;
-			if (!visited[i])
+			for (pair<int, int> edge : res)
 			{
-				dfs(i);	
+				cout << edge.first << " " << edge.second << el;
 			}
-			ans += (cnt * (cnt - 1)) / 2;	
 		}
-		
-		if (ans == m)
-		{
-			cout << "YES" << el;	
-		}	
 		else
 		{
-			cout << "NO" << el;
+			cout << -1 << el;
 		}
-	}	
+	}
 }
 
