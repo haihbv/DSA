@@ -70,7 +70,7 @@ void kruskal()
          { return a.w < b.w; });
 
     // lap
-    int d = 0;
+    int d = 0;             // luu tong trong so cua cay khung nho nhat ma thuat toan kruskal tim duoc
     std::vector<edge> mst; // luu cac canh cua cay khung
     for (int i = 0; i < m; i++)
     {
