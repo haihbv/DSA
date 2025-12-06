@@ -2,43 +2,41 @@
 
 using namespace std;
 
-#define ll long long
 #define el '\n'
 
-int a[100005], b[100005];
-
-void solve(int a[], int n)
-{
-	vector<int> res(n, -1);
+void next_greater_right(int a[], int n, int d[]) {
 	stack<int> st;
-	
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		while (!st.empty() && a[i] > a[st.top()]) {
-			res[st.top()] = a[i];
+			d[st.top()] = a[i];
 			st.pop();
 		}
 		st.push(i);
 	}
-	
-	for (int i = 0; i < n; i++)
-	{
-		cout << res[i] << " ";
+	while (!st.empty()) {
+		d[st.top()] = -1;
+		st.pop();
 	}
-	cout << el;
 }
-int main() {
+
+int main()
+{
 	cin.tie(0) -> sync_with_stdio(0);
 	int tc = 1;
 	cin >> tc;
 	while (tc--) {
 		int n;
 		cin >> n;
-		for (int i = 0; i < n; i++) {
-    		cin >> a[i];
+		int a[n], d[n];
+		for (int i = 0; i < n; i++)
+		{
+			cin >> a[i];
 		}
-		solve(a, n);
+		next_greater_right(a, n, d);
+		for (int i = 0; i < n; i++) {
+			cout << d[i] << " ";
+		}
+		cout << el;
 	}
 }
-
 

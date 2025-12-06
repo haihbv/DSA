@@ -1,18 +1,29 @@
 #include <bits/stdc++.h>
 
-#define el '\n'
-
 using namespace std;
 
-int priotiry(char c)
+#define el '\n'
+
+bool isValid(char x, char y)
 {
-	if (c == '*' || c == '/') return 2;
-	if (c == '-' || c == '+') return 1;
+    return (x == '(' && y == ')') ||
+           (x == '[' && y == ']') ||
+           (x == '{' && y == '}');
 }
 
-bool isCheck(string s)
-{
-	
+bool isCheck(string s) {
+	stack<char> st;
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == '(' || s[i] == '[' || s[i] == '{') st.push(s[i]);
+		else {
+			if (st.empty()) return false;
+			char x = st.top();
+			st.pop();
+			if (!isValid(x, s[i])) return false;
+		}
+	}
+	return st.empty();
 }
 
 int main()
@@ -21,14 +32,11 @@ int main()
 	int tc = 1;
 	cin >> tc;
 	cin.ignore();
-	while (tc--)
-	{
+	while (tc--) {
 		string s;
 		cin >> s;
-		if (isCheck(s)) {
-			cout << "YES";
-		} else cout << "NO";
-		cout << el; 	
+		if (!isCheck(s)) cout << "NO" << el;
+		else cout << "YES" << el;
 	}
 }
 
