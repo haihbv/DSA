@@ -1,70 +1,39 @@
 #include <bits/stdc++.h>
-#define el '\n'
 
 using namespace std;
 
+#define el '\n'
+
 int n, k, X[105];
-bool ok;
-string s;
+
 set<string> se;
 vector<string> v;
 
-void ktao()
-{
-	for (int i = 1; i <= k; i++)
-	{
-		X[i] = i;
+void ql(int i) {
+	for (int j = X[i - 1] + 1; j <= v.size() - k + i; j++) {
+		X[i] = j;
+		if (i == k) {
+			for (int l = 1; l <= k; l++) {
+				cout << v[X[l] - 1] << " ";
+			}
+			cout << el;
+		}
+		else ql(i + 1);
 	}
 }
 
-void sinh()
-{
-	int i = k;
-	int m = v.size();
-	while (i >= 1 && X[i] == m - k + i)
-	{
-		i--;
-	}
-	if (i < 1)
-	{
-		ok = false;
-		return;
-	}
-	X[i]++;
-	for (int j = i + 1; j <= k; j++)
-	{
-		X[j] = X[j - 1] + 1;
-	}
-}
-
-int main()
-{
-	cin.tie(0) -> sync_with_stdio(0);
+int main() {
 	cin >> n >> k;
-	cin.ignore();
-	getline(cin, s);
-	stringstream ss(s);
-	string tmp;
-	while (ss >> tmp)
-	{
-		se.insert(tmp);
+	se.clear(); v.clear();
+	X[0] = 0;
+	for (int i = 1; i <= n; i++) {
+		string x;
+		cin >> x;
+		se.insert(x);
 	}
-	
-	for (string x : se)
-	{
+	for (auto x : se) {
 		v.push_back(x);
 	}
-
-	ok = true;	
-	ktao();
-	while (ok)
-	{
-		for (int i = 1; i <= k; i++)
-		{
-			cout << v[X[i] - 1] << " ";
-		}
-		cout << endl;
-		sinh();
-	}
+	
+	ql(1);
 }
-

@@ -1,59 +1,42 @@
-#include "iostream"
-#include "string"
-#include "algorithm"
-
-#define el '\n'
+#include <bits/stdc++.h>
 
 using namespace std;
 
+#define el '\n'
+
 string s;
-bool is_check;
 
-void generation()
-{
-	int i = s.size() - 2;
-	while (i >= 0 && s[i] > s[i + 1])
-	{
-		i--;
-	}
-	if (i < 0)
-	{
-		is_check = false;
-		return; 
-	}
-	else
-	{
-		int j = s.size() - 1;
-		while (s[i] > s[j])
-		{
-			j--;
+bool used[1005];
+char X[1005];
+
+void ql(int i) {
+	for (int j = 0; j < s.length(); j++) {
+		if (!used[j]) {
+			X[i] = s[j];
+			used[j] = true;
+			if (i == s.length() - 1) {
+				for (int l = 0; l <= i; l++) {
+					cout << X[l];
+				}
+				cout << " ";
+			}
+			else ql(i + 1);
+			used[j] = false;
 		}
-		swap(s[i], s[j]);
-		reverse(s.begin() + i + 1, s.end());
 	}
 }
 
-void solve()
-{
-	is_check = true;
-	while (is_check)
-	{
-		cout << s << " ";
-		generation();
-	}
-	cout << el;
-}
-
-int main()
-{
-	cin.tie(0) -> sync_with_stdio(0);
-	int tc;
-	cin >> tc;
+int main () {
+	int t;
+	cin >> t;
 	cin.ignore();
-	while (tc--)
-	{
-		getline(cin, s);
-		solve();
+	while (t--) {
+		memset(used, false, sizeof(used));
+		s.clear();
+		cin >> s;
+		sort(s.begin(), s.end());
+		ql(0);
+		cout << endl;
 	}
 }
 
